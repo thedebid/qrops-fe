@@ -3,13 +3,16 @@
 >
   <div class="px-4 h-full flex items-center justify-between">
     <div class="flex items-center">
-      <!-- <button 
-          onClick={toggleSidebar} 
-          class="p-2 mr-2 text-gray-600 rounded-md lg:hidden hover:bg-gray-100"
-          aria-label={isSidebarOpen ? "Close menu" : "Open menu"}
-        >
-          {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
-        </button> -->
+      <button
+        (click)="toggleSidebar()"
+        class="p-2 mr-2 text-gray-600 rounded-md hover:bg-gray-100"
+      >
+        @if(layoutService.isSidebarOpen()){
+        <i-lucide [img]="XIcon" [size]="20"></i-lucide>
+        } @else {
+        <i-lucide [img]="MenuIcon" [size]="20"></i-lucide>
+        }
+      </button>
       <div class="flex items-center">
         <h1 class="text-xl font-bold text-blue-600 hidden md:block">
           RestroAdmin

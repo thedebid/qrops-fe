@@ -3,6 +3,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { RouterOutlet } from '@angular/router';
 import { NgClass } from '@angular/common';
+import { LayoutService } from '../../core/services/layout.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,5 +12,5 @@ import { NgClass } from '@angular/common';
   styleUrl: './dashboard.component.css',
 })
 export class DashboardComponent {
-  @Input() isSidebarOpen: boolean = true;
+  constructor(public layoutService: LayoutService) {}
 }
