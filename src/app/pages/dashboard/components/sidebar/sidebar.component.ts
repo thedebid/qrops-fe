@@ -12,6 +12,7 @@ import {
   Settings,
   Group,
 } from 'lucide-angular';
+import { LayoutService } from '../../../../core/services/layout.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -20,8 +21,6 @@ import {
   styleUrl: './sidebar.component.css',
 })
 export class SidebarComponent {
-  isOpen: boolean = true;
-
   menuItems = [
     { icon: Home, label: 'Dashboard', path: '/dashboard/analytics' },
     { icon: Group, label: 'Categories', path: '/dashboard/categories' },
@@ -31,7 +30,8 @@ export class SidebarComponent {
     { icon: User, label: 'Profile', path: '/profile' },
     { icon: Settings, label: 'Settings', path: '/settings' },
   ];
-  constructor(private router: Router) {}
+
+  constructor(private router: Router, public layoutService: LayoutService) {}
 
   isActive(path: string): boolean {
     return this.router.url.startsWith(path);
