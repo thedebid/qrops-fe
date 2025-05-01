@@ -1,0 +1,14 @@
+<div className="min-h-screen bg-gray-50">
+  <app-header></app-header>
+  <app-sidebar></app-sidebar>
+  <main
+    [ngClass]="[
+      'pt-16 transition-all duration-300',
+      isSidebarOpen ? 'lg:ml-64' : 'lg:ml-20'
+    ]"
+  >
+    <div class="px-4 py-6 max-w-7xl mx-auto">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>
