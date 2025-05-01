@@ -1,0 +1,84 @@
+<header
+  class="bg-white border-b border-gray-200 fixed top-0 left-0 right-0 z-30 h-16"
+>
+  <div class="px-4 h-full flex items-center justify-between">
+    <div class="flex items-center">
+      <!-- <button 
+          onClick={toggleSidebar} 
+          class="p-2 mr-2 text-gray-600 rounded-md lg:hidden hover:bg-gray-100"
+          aria-label={isSidebarOpen ? "Close menu" : "Open menu"}
+        >
+          {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
+        </button> -->
+      <div class="flex items-center">
+        <h1 class="text-xl font-bold text-blue-600 hidden md:block">
+          RestroAdmin
+        </h1>
+      </div>
+    </div>
+
+    <!-- <div class="flex-1 max-w-md mx-4 hidden md:block">
+      <div class="relative">
+        <div
+          class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+        >
+          <Search size="{18}" class="text-gray-400" />
+        </div>
+        <input
+          type="text"
+          placeholder="Search..."
+          class="w-full h-10 pl-10 pr-4 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        />
+      </div>
+    </div> -->
+
+    <div class="flex items-center space-x-2">
+      <button class="p-2 text-gray-600 rounded-full hover:bg-gray-100 relative">
+        <i-lucide [img]="BellIcon" [size]="20"></i-lucide>
+        <span
+          class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"
+        ></span>
+      </button>
+
+      <div class="relative">
+        <button
+          (click)="toggleUserMenu()"
+          class="flex items-center space-x-2 p-1 rounded-full hover:bg-gray-100"
+        >
+          <div
+            class="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center"
+          >
+            <i-lucide [img]="UserIcon" [size]="18"></i-lucide>
+          </div>
+        </button>
+
+        @if(showUserMenu){
+        <div
+          class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200"
+        >
+          <a
+            routerLink="/profile"
+            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+          >
+            Profile
+          </a>
+          <a
+            routerLink="/settings"
+            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+          >
+            Settings
+          </a>
+          <div class="border-t border-gray-200 my-1"></div>
+          <a
+            routerLink="/login"
+            class="flex items-center px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+          >
+            <i-lucide [img]="LogOutIcon" [size]="16" class="mr-2"></i-lucide>
+            Logout
+          </a>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+</header>
