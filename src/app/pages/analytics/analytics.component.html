@@ -1,1 +1,161 @@
-<p>analytics works!</p>
+<div class="space-y-6">
+  <div>
+    <h1 class="text-2xl font-bold text-gray-900">Dashboard</h1>
+    <p class="text-gray-500 mt-1">
+      Welcome back! Here's what's happening with your store today.
+    </p>
+  </div>
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    @for (stat of stats; track stat.id) {
+    <app-card
+      [class]="'border-none shadow-sm hover:shadow-md transition-shadow'"
+    >
+      <app-card-content [class]="'p-6'">
+        <div class="flex items-center justify-between">
+          <div [ngClass]="stat.iconBackground + ' p-3 rounded-full'">
+            <i-lucide
+              [img]="stat.icon"
+              [class]="'h-5 w-5 text-green-600 ' + stat.iconColor"
+            ></i-lucide>
+          </div>
+          @if (stat.trend === 'up') {
+          <i-lucide
+            [img]="TrendingUp"
+            class="h-5 w-5 text-green-600"
+          ></i-lucide>
+          } @else {
+          <i-lucide
+            [img]="TrendingDown"
+            class="h-5 w-5 text-green-600"
+          ></i-lucide>
+          }
+        </div>
+        <div class="mt-4">
+          <p class="text-sm font-medium text-gray-500">{{ stat.title }}</p>
+          <h3 class="text-2xl font-bold text-gray-900 mt-1">
+            {{ stat.value }}
+          </h3>
+          <div class="flex items-center mt-2">
+            <span
+              [ngClass]="
+                'text-sm ' +
+                (stat.trend === 'up' ? 'text-green-600' : 'text-red-600')
+              "
+            >
+              {{ stat.change }}
+            </span>
+            <span class="text-sm text-gray-500 ml-1">from last month</span>
+          </div>
+        </div>
+      </app-card-content>
+    </app-card>
+    }
+  </div>
+  <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+    <app-card class="lg:col-span-2 border-none shadow-sm">
+      <app-card-header [class]="'pb-2'">
+        <app-card-title>Recent Orders</app-card-title>
+        <app-card-description
+          >You have {{ recentOrders.length }} orders this
+          week</app-card-description
+        >
+      </app-card-header>
+      <app-card-content>
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead>
+              <tr class="text-sm text-left text-gray-500 border-b">
+                <th class="pb-3 pr-4 font-medium">Order ID</th>
+                <th class="pb-3 px-4 font-medium">Customer</th>
+                <th class="pb-3 px-4 font-medium">Date</th>
+                <th class="pb-3 px-4 font-medium">Status</th>
+                <th class="pb-3 pl-4 font-medium text-right">Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (order of recentOrders; track order.id) {
+              <tr
+                class="border-b border-gray-100 hover:bg-gray-50 transition-colors"
+              >
+                <td class="py-3 pr-4 text-blue-600 font-medium">
+                  {{ order.id }}
+                </td>
+                <td class="py-3 px-4">{{ order.customer }}</td>
+                <td class="py-3 px-4 text-gray-500 text-sm">
+                  {{ order.date }}
+                </td>
+                <td class="py-3 px-4">
+                  <span
+                    [ngClass]="
+                      'inline-flex rounded-full px-2 py-0.5 text-xs font-medium ' +
+                      getStatusColor(order.status)
+                    "
+                  >
+                    {{ order.status }}
+                  </span>
+                </td>
+                <td class="py-3 pl-4 text-right font-medium">
+                  {{ order.amount }}
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        <div class="flex justify-center mt-4">
+          <button
+            class="text-sm text-blue-600 font-medium hover:text-blue-800 flex items-center"
+          >
+            View all orders
+            <i-lucide [img]="ArrowUpRight" [class]="'ml-1 h-3 w-3'"></i-lucide>
+          </button>
+        </div>
+      </app-card-content>
+    </app-card>
+
+    <app-card class="border-none shadow-sm">
+      <app-card-header [class]="'pb-2'">
+        <app-card-title>Top Selling Products</app-card-title>
+        <app-card-description>Top Selling Products</app-card-description>
+      </app-card-header>
+      <app-card-content>
+        <div class="space-y-4">
+          @for (product of products; track product.name) {
+          <div key="{index}" class="flex items-center">
+            <div
+              class="w-12 h-12 bg-gray-100 rounded-md flex items-center justify-center mr-3"
+            >
+              <i-lucide
+                [img]="Package2"
+                class="h-6 w-6 text-gray-500"
+              ></i-lucide>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-medium text-gray-900 truncate">
+                {{ product.name }}
+              </p>
+              <p class="text-xs text-gray-500">{{ product.sales }} sales</p>
+            </div>
+            <div class="text-right">
+              <p class="text-sm font-medium text-gray-900">
+                {{ product.amount }}
+              </p>
+              <div class="mt-1 flex items-center">
+                <div class="w-full bg-gray-200 rounded-full h-1.5">
+                  <div
+                    class="bg-blue-600 h-1.5 rounded-full"
+                    [ngStyle]="{ width: product.percent + '%' }"
+                  ></div>
+                </div>
+                <span class="text-xs text-gray-500 ml-2"
+                  >{{ product.percent }}%</span
+                >
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+      </app-card-content>
+    </app-card>
+  </div>
+</div>

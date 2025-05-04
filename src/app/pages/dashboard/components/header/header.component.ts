@@ -9,9 +9,10 @@ import {
   Menu,
 } from 'lucide-angular';
 import { LayoutService } from '../../../../core/services/layout.service';
+import {ThemeToggleComponent} from '../../../../shared/components/theme-toggle/theme-toggle.component';
 @Component({
   selector: 'app-header',
-  imports: [LucideAngularModule, RouterLink],
+  imports: [LucideAngularModule, RouterLink, ThemeToggleComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })

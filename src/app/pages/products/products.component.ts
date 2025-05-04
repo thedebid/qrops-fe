@@ -14,11 +14,12 @@ import {
   ChevronRightIcon,
 } from 'lucide-angular';
 import { RouterLink } from '@angular/router';
-import { NgClass, NgForOf } from '@angular/common';
+import { NgClass } from '@angular/common';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-products',
-  imports: [ButtonComponent, LucideAngularModule, RouterLink, NgClass],
+  imports: [ButtonComponent, LucideAngularModule, RouterLink, NgClass, FormsModule],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css',
 })
@@ -34,6 +35,9 @@ export class ProductsComponent {
   readonly MoreHorizontalIcon = MoreHorizontalIcon;
   readonly ChevronLeftIcon = ChevronLeftIcon;
   readonly ChevronRightIcon = ChevronRightIcon;
+
+  searchQuery: string ='';
+
   // Mock product data
   products = [
     {
@@ -100,6 +104,10 @@ export class ProductsComponent {
 
   viewMode: 'grid' | 'list' = 'grid';
 
+  ngOnInit(): void {
+    this.filterProducts(); // This runs on initial render
+  }
+
   setViewMode(mode: 'grid' | 'list') {
     this.viewMode = mode;
   }
@@ -113,5 +121,12 @@ export class ProductsComponent {
         return 'bg-gray-100 text-gray-800';
     }
   }
-  filteredProducts = [];
+  filteredProducts:any = [];
+
+  filterProducts() {
+    const query = this.searchQuery.toLowerCase().trim();
+    this.filteredProducts = this.products.filter(product =>
+      product.name.toLowerCase().includes(query)
+    );
+  }
 }
