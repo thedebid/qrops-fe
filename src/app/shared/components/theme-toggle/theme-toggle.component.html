@@ -1,0 +1,12 @@
+
+<button
+  (click)="toggleTheme()"
+  class="p-2 mr-2 text-gray-600 rounded-md hover:bg-gray-100"
+  aria-label="Toggle theme"
+>
+  @if (themeService.theme().mode === 'light') {
+    <i-lucide [img]="MoonIcon" [size]="18"></i-lucide>
+  } @else {
+    <i-lucide [img]="SunIcon" [size]="18"></i-lucide>
+  }
+</button>
