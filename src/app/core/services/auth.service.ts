@@ -20,7 +20,7 @@ export class AuthService {
     return this.isLoggedIn || !!localStorage.getItem(this.tokenKey);
   }
 
-  setUserLoggedIn(isLoggedIn: boolean): void {
+  setLoggedIn(isLoggedIn: boolean): void {
     this.isLoggedIn = isLoggedIn;
   }
 
