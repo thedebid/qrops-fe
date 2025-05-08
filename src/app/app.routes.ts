@@ -6,6 +6,7 @@ import { AddProductComponent } from './pages/products/add-product/add-product.co
 import { AnalyticsComponent } from './pages/analytics/analytics.component';
 import { CategoriesComponent } from './pages/categories/categories.component';
 import { AddCategoryComponent } from './pages/categories/add-category/add-category.component';
+import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -15,6 +16,7 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
+    canActivate: [authGuard],
     children: [
       { path: 'analytics', component: AnalyticsComponent },
       {
