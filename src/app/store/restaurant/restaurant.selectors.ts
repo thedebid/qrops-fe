@@ -9,3 +9,8 @@ export const selectAllRestaurants = createSelector(
   selectRestaurantState,
   (state: RestaurantState) => state.restaurants
 );
+
+export const selectSelectedRestaurant = createSelector(
+  selectRestaurantState,
+  (state) => state.selectedRestaurant
+);
