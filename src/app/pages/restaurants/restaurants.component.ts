@@ -8,14 +8,18 @@ import {
   MoreHorizontal,
   ChevronLeft,
   ChevronRight,
-  Package,
   Package2,
   RefreshCw,
 } from 'lucide-angular';
 import { RouterLink } from '@angular/router';
 import { CardComponent } from '../../shared/components/card/card.component';
-import { NgStyle } from '@angular/common';
+import { AsyncPipe, NgStyle } from '@angular/common';
 import { RestaurantService } from './services/restaurant.service';
+import { Store } from '@ngrx/store';
+import { loadRestaurants } from '../../store/restaurant/restaurant.actions';
+import { selectAllRestaurants } from '../../store/restaurant/restaurant.selectors';
+import { AppState } from '../../store/app.state';
+import { Observable, of } from 'rxjs';
 @Component({
   selector: 'app-restaurants',
   imports: [
@@ -24,6 +28,7 @@ import { RestaurantService } from './services/restaurant.service';
     RouterLink,
     CardComponent,
     NgStyle,
+    AsyncPipe,
   ],
   templateUrl: './restaurants.component.html',
   styleUrl: './restaurants.component.css',
@@ -40,18 +45,25 @@ export class RestaurantsComponent {
 
   myRestaurants: any = [];
 
-  constructor(private restaurantService: RestaurantService) {}
+  constructor(
+    private restaurantService: RestaurantService,
+    private store: Store<AppState>
+  ) {}
+
+  public restaurants$: Observable<any> = of([]);
 
   ngOnInit() {
-    this.restaurantService.getRestaurants().subscribe({
-      next: (response: any) => {
-        if (response.length > 0) {
-          this.myRestaurants = response;
-        }
-      },
-      error: (err: any) => {
-        console.error(err.message || 'Error fetching restaurants');
-      },
-    });
+    this.restaurants$ = this.store.select(selectAllRestaurants);
+    this.store.dispatch(loadRestaurants());
+    // this.restaurantService.getRestaurants().subscribe({
+    //   next: (response: any) => {
+    //     if (response.length > 0) {
+    //       this.myRestaurants = response;
+    //     }
+    //   },
+    //   error: (err: any) => {
+    //     console.error(err.message || 'Error fetching restaurants');
+    //   },
+    // });
   }
 }

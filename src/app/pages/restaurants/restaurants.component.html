@@ -12,7 +12,7 @@
     </a>
   </div>
 
-  @for (restaurant of myRestaurants; track restaurant.id) {
+  @for (restaurant of restaurants$ | async; track restaurant.id) {
   <div class="rounded-lg shadow-sm border border-gray-200 p-3">
     <div key="{index}" class="flex items-center">
       <div
@@ -50,7 +50,7 @@
           >Dashboard</a
         >
       </div>
-      <div class="group">
+      <div class="group ml-4">
         <button
           class="opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium bg-primary text-white h-10 px-4 py-2"
           type="button"
