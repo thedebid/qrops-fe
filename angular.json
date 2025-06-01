@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "restro-frontend": {
+    "qrops-fe": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/restro-frontend",
+            "outputPath": "dist/qrops-fe",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -59,10 +59,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "restro-frontend:build:production"
+              "buildTarget": "qrops-fe:build:production"
             },
             "development": {
-              "buildTarget": "restro-frontend:build:development"
+              "buildTarget": "qrops-fe:build:development"
             }
           },
           "defaultConfiguration": "development"

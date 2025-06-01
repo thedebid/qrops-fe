@@ -1,0 +1,68 @@
+<div class="flex flex-col gap-6 xl:max-w-5xl mx-auto">
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900">Restaurant</h1>
+      <p class="text-gray-500 mt-1">Manage your restaurants</p>
+    </div>
+    <a routerLink="/dashboard/categories/new">
+      <app-button class="mt-4 sm:mt-0 flex items-center">
+        <i-lucide [img]="PlusIcon" [size]="18" class="mr-1"></i-lucide>
+        Add New Restaurant
+      </app-button>
+    </a>
+  </div>
+
+  @for (restaurant of restaurants$ | async; track restaurant.id) {
+  <div class="rounded-lg shadow-sm border border-gray-200 p-3">
+    <div key="{index}" class="flex items-center">
+      <div
+        class="w-14 h-14 bg-gray-100 rounded-md flex items-center justify-center mr-3"
+      >
+        <i-lucide [img]="Package2" class="h-7 w-7 text-gray-500"></i-lucide>
+      </div>
+      <div class="flex-1 min-w-0">
+        <p class="text-sm font-medium text-gray-500 truncate">
+          {{ restaurant.name }}
+        </p>
+        <div class="flex items-center gap-3">
+          <div class="flex items-center gap-2 divide-x">
+            <p class="text-xs text-gray-500 pr-2">
+              Role :
+              <span class="text-xs text-gray-500 font-bold"> category</span>
+            </p>
+            <p class="text-xs text-gray-500">
+              Position :
+              <span class="text-xs text-gray-500 font-bold"> category</span>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center gap-4">
+        <a
+          class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-xs 3xl:text-sm font-medium transition-all bg-amber-200 text-primary-foreground h-10 px-6 py-2"
+          href="/en/settings"
+          >Settings</a
+        >
+
+        <a
+          class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-xs 3xl:text-sm font-medium transition-all bg-primary text-primary-foreground h-10 px-6 py-2"
+          href="/en/restrox"
+          >Dashboard</a
+        >
+      </div>
+      <div class="group ml-4">
+        <button
+          class="opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium bg-primary text-white h-10 px-4 py-2"
+          type="button"
+        >
+          <i-lucide
+            [img]="RefreshCw"
+            class="h-5 w-5 text-white mr-2"
+          ></i-lucide>
+          Switch Restaurant
+        </button>
+      </div>
+    </div>
+  </div>
+  }
+</div>
