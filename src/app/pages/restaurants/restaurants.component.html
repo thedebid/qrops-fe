@@ -13,7 +13,12 @@
   </div>
 
   @for (restaurant of restaurants$ | async; track restaurant.id) {
-  <div class="rounded-lg shadow-sm border border-gray-200 p-3">
+  <div
+    class="rounded-lg shadow-sm border border-gray-200 p-3"
+    [ngClass]="{
+      'border-primary': selectedRestaurant()?.id == restaurant.id,
+    }"
+  >
     <div key="{index}" class="flex items-center">
       <div
         class="w-14 h-14 bg-gray-100 rounded-md flex items-center justify-center mr-3"
@@ -26,7 +31,7 @@
         </p>
         <div class="flex items-center gap-3">
           <div class="flex items-center gap-2 divide-x">
-            <p class="text-xs text-gray-500 pr-2">
+            <p class="text-xs text-tsecondary pr-2">
               Role :
               <span class="text-xs text-gray-500 font-bold"> category</span>
             </p>
@@ -37,23 +42,27 @@
           </div>
         </div>
       </div>
+      @if (selectedRestaurant() && selectedRestaurant()?.id == restaurant.id) {
       <div class="flex items-center gap-4">
         <a
-          class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-xs 3xl:text-sm font-medium transition-all bg-amber-200 text-primary-foreground h-10 px-6 py-2"
+          class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-xs 3xl:text-sm font-medium transition-all bg-amber-200 text-tsecondary h-10 px-6 py-2"
           href="/en/settings"
           >Settings</a
         >
 
         <a
-          class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-xs 3xl:text-sm font-medium transition-all bg-primary text-primary-foreground h-10 px-6 py-2"
+          class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-xs 3xl:text-sm font-medium transition-all bg-primary text-tprimary h-10 px-6 py-2"
           href="/en/restrox"
           >Dashboard</a
         >
       </div>
+      } @if (selectedRestaurant() && selectedRestaurant()?.id != restaurant.id)
+      {
       <div class="group ml-4">
         <button
           class="opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium bg-primary text-white h-10 px-4 py-2"
           type="button"
+          (click)="switchRestaurant(restaurant)"
         >
           <i-lucide
             [img]="RefreshCw"
@@ -62,6 +71,21 @@
           Switch Restaurant
         </button>
       </div>
+      } @if (!selectedRestaurant()) {
+      <div class="group ml-4">
+        <button
+          class="transition-opacity duration-200 ease-in-out inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium bg-primary text-white h-10 px-4 py-2"
+          type="button"
+          (click)="switchRestaurant(restaurant)"
+        >
+          <i-lucide
+            [img]="CheckCircle"
+            class="h-5 w-5 text-white mr-2"
+          ></i-lucide>
+          Select Restaurant
+        </button>
+      </div>
+      }
     </div>
   </div>
   }
