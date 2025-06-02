@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   DollarSign,
   LucideAngularModule,
@@ -16,6 +16,11 @@ import { CardContentComponent } from '../../shared/components/card/card-content/
 import { CardHeaderComponent } from '../../shared/components/card/card-header/card-header.component';
 import { CardTitleComponent } from '../../shared/components/card/card-title/card-title.component';
 import { CardDescriptionComponent } from '../../shared/components/card/card-description/card-description.component';
+import { Observable, of } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { selectSelectedRestaurant } from '../../store/restaurant/restaurant.selectors';
+import { Store } from '@ngrx/store';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-analytics',
@@ -140,4 +145,20 @@ export class AnalyticsComponent {
         return 'bg-gray-100 text-gray-800';
     }
   };
+
+  private store = inject(Store);
+
+  public restaurants$: Observable<any> = of([]);
+  public selectedRestaurant = toSignal(
+    this.store.select(selectSelectedRestaurant),
+    { initialValue: null }
+  );
+
+  constructor(private router: Router) {}
+
+  ngOnInit() {
+    if (!this.selectedRestaurant()) {
+      this.router.navigate(['/dashboard/restaurants']);
+    }
+  }
 }
