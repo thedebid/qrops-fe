@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ButtonComponent } from '../../shared/components/button/button.component';
 import {
   LucideAngularModule,
@@ -8,14 +8,26 @@ import {
   MoreHorizontal,
   ChevronLeft,
   ChevronRight,
-  Package,
   Package2,
   RefreshCw,
+  CheckCircle,
 } from 'lucide-angular';
 import { RouterLink } from '@angular/router';
 import { CardComponent } from '../../shared/components/card/card.component';
-import { NgStyle } from '@angular/common';
-import { RestaurantService } from './services/restaurant.service';
+import { AsyncPipe, NgClass, NgIf, NgStyle } from '@angular/common';
+import { Store } from '@ngrx/store';
+import {
+  loadRestaurants,
+  selectRestaurant,
+} from '../../store/restaurant/restaurant.actions';
+import {
+  selectAllRestaurants,
+  selectSelectedRestaurant,
+} from '../../store/restaurant/restaurant.selectors';
+import { Observable, of } from 'rxjs';
+import { Restaurant } from '../../store/restaurant/restaurant.model';
+import { toSignal } from '@angular/core/rxjs-interop';
+
 @Component({
   selector: 'app-restaurants',
   imports: [
@@ -24,6 +36,9 @@ import { RestaurantService } from './services/restaurant.service';
     RouterLink,
     CardComponent,
     NgStyle,
+    AsyncPipe,
+    NgClass,
+    NgIf,
   ],
   templateUrl: './restaurants.component.html',
   styleUrl: './restaurants.component.css',
@@ -37,21 +52,23 @@ export class RestaurantsComponent {
   readonly ChevronRightIcon = ChevronRight;
   readonly Package2 = Package2;
   readonly RefreshCw = RefreshCw;
+  readonly CheckCircle = CheckCircle;
 
-  myRestaurants: any = [];
+  private store = inject(Store);
+  // constructor(private store: Store<AppState>) {}
 
-  constructor(private restaurantService: RestaurantService) {}
+  public restaurants$: Observable<any> = of([]);
+  public selectedRestaurant = toSignal(
+    this.store.select(selectSelectedRestaurant),
+    { initialValue: null }
+  );
 
   ngOnInit() {
-    this.restaurantService.getRestaurants().subscribe({
-      next: (response: any) => {
-        if (response.length > 0) {
-          this.myRestaurants = response;
-        }
-      },
-      error: (err: any) => {
-        console.error(err.message || 'Error fetching restaurants');
-      },
-    });
+    this.store.dispatch(loadRestaurants());
+    this.restaurants$ = this.store.select(selectAllRestaurants);
+  }
+
+  switchRestaurant(restaurant: Restaurant) {
+    this.store.dispatch(selectRestaurant({ restaurant }));
   }
 }
