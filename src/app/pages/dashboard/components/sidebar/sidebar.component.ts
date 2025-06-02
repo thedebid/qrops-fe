@@ -5,22 +5,25 @@ import {
   LucideAngularModule,
   Home,
   ShoppingBag,
-  PlusCircle,
   Users,
   BarChart2,
   User,
   Settings,
   Group,
+  ArrowDown,
 } from 'lucide-angular';
 import { LayoutService } from '../../../../core/services/layout.service';
+import { CardComponent } from '../../../../shared/components/card/card.component';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [NgClass, RouterLink, NgForOf, LucideAngularModule],
+  imports: [NgClass, RouterLink, NgForOf, LucideAngularModule, CardComponent],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css',
 })
 export class SidebarComponent {
+  protected readonly ShoppingBagIcon = ShoppingBag;
+  protected readonly ArrowDown = ArrowDown;
   menuItems = [
     { icon: Home, label: 'Dashboard', path: '/dashboard/analytics' },
     { icon: Group, label: 'Categories', path: '/dashboard/categories' },
@@ -34,6 +37,10 @@ export class SidebarComponent {
   constructor(private router: Router, public layoutService: LayoutService) {}
 
   isActive(path: string): boolean {
-    return this.router.url.startsWith(path);
+    return (
+      this.router.url.startsWith(path) ||
+      (this.router.url === '/dashboard/restaurants' &&
+        path === '/dashboard/analytics')
+    );
   }
 }
