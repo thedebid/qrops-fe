@@ -20,24 +20,90 @@
       </div>
     </div>
 
-    <!-- <div class="flex-1 max-w-md mx-4 hidden md:block">
-      <div class="relative">
-        <div
-          class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-        >
-          <Search size="{18}" class="text-gray-400" />
-        </div>
-        <input
-          type="text"
-          placeholder="Search..."
-          class="w-full h-10 pl-10 pr-4 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-        />
-      </div>
-    </div> -->
+    <div class="flex-1 max-w-md mx-4 hidden md:block">
+      <div class="relative"></div>
+    </div>
 
     <div class="flex items-center space-x-2">
+      <div class="flex items-center mr-2 p-2">
+        <div class="relative">
+          <button
+            type="button"
+            class="group inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-150"
+            (click)="toggleDropdown()"
+            [attr.aria-expanded]="isDropdownOpen"
+            aria-haspopup="true"
+            *ngIf="selectedRestaurant$ | async as selectedRestaurant"
+          >
+            <span class="mr-1">{{ selectedRestaurant.name }}</span>
+            <span class="text-xs text-gray-500">{{
+              selectedRestaurant.address
+            }}</span>
+            <span
+              class="ml-2 h-4 w-4 text-gray-500 group-hover:text-gray-600 transition-transform duration-150 ease-in-out"
+              [ngStyle]="{
+                transform: isDropdownOpen ? 'rotate(180deg)' : 'rotate(0)'
+              }"
+            >
+              <i-lucide [img]="ChevronDownIcon" [size]="18"></i-lucide>
+            </span>
+          </button>
+
+          <div
+            *ngIf="isDropdownOpen"
+            class="origin-top-right absolute right-0 mt-2 w-72 rounded-md shadow-lg bg-white ring-1 ring-gray-200 ring-opacity-5 focus:outline-none z-10"
+          >
+            <div
+              class="py-1"
+              *ngIf="selectedRestaurant$ | async as selectedRestaurant"
+            >
+              <button
+                *ngFor="let restaurant of restaurants$ | async"
+                [ngClass]="{
+                  'bg-gray-100': selectedRestaurant.id === restaurant.id,
+                  'text-gray-900': selectedRestaurant.id === restaurant.id,
+                  'text-gray-700': selectedRestaurant.id !== restaurant.id,
+                  flex: true,
+                  'justify-between': true,
+                  'w-full': true,
+                  'px-4': true,
+                  'py-3': true,
+                  'text-sm': true,
+                  'hover:bg-gray-50': true,
+                  'transition-colors': true,
+                  'duration-150': true
+                }"
+                (click)="selectRestaurant(restaurant)"
+              >
+                <div class="flex flex-col items-start">
+                  <span class="font-medium">{{ restaurant.name }}</span>
+                  <span class="text-xs text-gray-500">{{
+                    restaurant.address
+                  }}</span>
+                </div>
+                <span
+                  *ngIf="selectedRestaurant.id === restaurant.id"
+                  class="text-indigo-600"
+                  >✓</span
+                >
+              </button>
+              <div class="border-t border-gray-100 my-1"></div>
+              <a
+                (click)="viewAllRestaurants()"
+                routerLink="/dashboard/restaurants"
+                class="text-indigo-600 hover:text-indigo-700 flex items-center px-4 py-2 text-sm font-medium transition-colors duration-150"
+              >
+                View all restaurants
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <app-theme-toggle></app-theme-toggle>
-      <button class="p-2 text-gray-600 rounded-full hover:bg-gray-100 relative">
+      <button
+        class="p-2 text-gray-600 rounded-full hover:bg-gray-100 relative mr-2"
+      >
         <i-lucide [img]="BellIcon" [size]="20"></i-lucide>
         <span
           class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"
